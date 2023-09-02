@@ -9,6 +9,12 @@ for file in *.mp4; do
   # 音量差を計算
   volume_diff=$(echo "$target_volume - $mean_volume" | bc)
 
-  # 音量を正規化
-  ffmpeg -i "$file" -af "volume=${volume_diff}dB" "normalized_$file"
+  # 音量を一度正規化
+  ffmpeg -i "$file" -af "volume=${volume_diff}dB" "temp_normalized_$file"
+
+  # loudnormフィルタで更に高度な正規化
+  ffmpeg -i "temp_normalized_$file" -af "loudnorm=I=-16:TP=-1.5:LRA=11" "final_normalized_$file"
+
+  # 一時ファイルを削除
+  rm "temp_normalized_$file"
 done
