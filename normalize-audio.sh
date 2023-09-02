@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# 平均音量を目標値に近づけるように調整するためのスクリプト
 target_volume=-20.0  # 目標の平均音量（dB）
 
 for file in *.mp4; do
